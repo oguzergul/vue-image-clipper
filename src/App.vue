@@ -44,8 +44,13 @@ export default {
   name: 'App',
   components: {
     clipperUpload,
+<<<<<<< HEAD
    /* clipperBasic,*/
     clipperFixed
+=======
+    clipperBasic,
+    /*clipperFixed - for static clipper   */
+>>>>>>> 3a91419ffdf4d5c63abfbe8304935ef13d2ccc1a
 
   },
   data() {
