@@ -1,28 +1,125 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+
+  <div class="container">
+    <clipper-upload class="container-upload" v-if="!src" v-model="src">
+      <h3 class="container-upload-text">Upload Image</h3>
+    </clipper-upload>
+
+    <clipper-basic
+        v-else
+        class="container-upload"
+        ref="clipper"
+        :src="src"
+    />
+
+    <button
+        @click="getResult "
+        class="container-set">Set Image
+    </button>
+
+    <button
+        @click="clip"
+        class="container-set">Download
+    </button>
+
+    <button
+        @click="resetCanvas"
+        class="container-set">Delete
+    </button>
+
+    <div class="container-result">
+      <img :src="result">
+    </div>
+
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import {clipperBasic, clipperUpload} from 'vuejs-clipper';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    clipperUpload,
+    clipperBasic,
+    /*clipperFixed - sabit  seçici için kullanılıyor.  */
+
+  },
+  data() {
+    return {
+      src: "",
+      result: "",
+    }
+  },
+  methods: {
+    getResult() {
+      const canvas = this.$refs.clipper.clip({maxWPixel: 500}) /// size can change dynamically for project requirement
+      /*this.pixel = `${canvas.width} x ${canvas.height}`*/    /// can set dynamic canvas sizes
+      this.result = canvas.toDataURL('image/jpeg')     /// download image type
+
+    },
+    clip() {
+      this.getResult()
+      const a = document.createElement('a')
+      a.download = 'result.jpg'
+      a.href = this.result
+      a.target = '_blank'
+      a.click()
+    },
+    resetCanvas() {
+      this.src = ""
+      this.result = ""
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 400px;
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 50px;
+    border: 2px dashed gray;
+    cursor: pointer;
+
+    &-text {
+      color: darkgray;
+    }
+  }
+
+  &-result {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  &-set {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    width: 400px;
+    height: 60px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 20px;
+    background-color: rebeccapurple;
+    color: white;
+    cursor: pointer;
+  }
 }
 </style>
