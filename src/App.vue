@@ -1,7 +1,15 @@
 <template>
+  <b-container class="container">
+    <b-form-select :options="options" v-model.number="ratio"></b-form-select>
 
 
-  <div class="container">
+    <div class="d-flex flex-row mt-4">
+      <b-form-checkbox v-model="grid">Grid</b-form-checkbox>
+      <b-form-checkbox class="ml-2" v-model="round">Rounded</b-form-checkbox>
+    </div>
+
+    <button @click="rotater" class="container-rotate">Rotate</button>
+
     <clipper-upload class="container-upload" v-if="!src" v-model="src">
       <h3 class="container-upload-text">Upload Image</h3>
     </clipper-upload>
@@ -11,6 +19,12 @@
         class="container-upload"
         ref="clipper"
         :src="src"
+        :ratio="ratio"
+        :layout="round"
+        :grid="grid"
+        :round="round"
+        :rotate="rotate"
+
     />
 
     <button
@@ -29,10 +43,10 @@
     </button>
 
     <div class="container-result">
-      <img :src="result">
+      <img :src="result" alt="result image">
     </div>
 
-  </div>
+  </b-container>
 
 </template>
 
@@ -45,13 +59,30 @@ export default {
   components: {
     clipperUpload,
     clipperFixed,
-
-
   },
   data() {
     return {
+      layout: [
+        {value: "grid", text: "Grid"},
+        {value: "round", text: "Rounded"}
+      ],
+      grid: false,
+      round: false,
+
+      options: [
+        {value: null, text: "Choose..."},
+        {value: 1, text: "Kare"},
+        {value: 1, text: "Kare"},
+        {value: 2, text: "Dikdörtgen"},
+        {value: 3, text: "Dikdörtgen Slim"},
+        {value: 4, text: "Slim Vertical"},
+        {value: 2 / 4, text: "Dikey Geniş"},
+        {value: 1 / 2, text: "Dikey Dar"},
+      ],
+      ratio: null,
       src: "",
       result: "",
+      rotate: 0,
     }
   },
   methods: {
@@ -72,7 +103,15 @@ export default {
     resetCanvas() {
       this.src = ""
       this.result = ""
-    }
+    },
+    rotater() {
+      this.rotate = this.rotate + 45
+    },
+
+
+  },
+  created() {
+    console.log(this.ratio)
   }
 }
 </script>
@@ -83,6 +122,15 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-top: 20px;
+
+  &-rotate {
+    height: 50px;
+    width: 100px;
+    border: none;
+    margin-top: 20px;
+    background-color: lightsteelblue;
+  }
 
   &-upload {
     display: flex;
