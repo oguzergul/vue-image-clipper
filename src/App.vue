@@ -45,7 +45,7 @@ export default {
   components: {
     clipperUpload,
     clipperBasic,
-    /*clipperFixed - sabit  seçici için kullanılıyor.  */
+    /*clipperFixed - for static clipper   */
 
   },
   data() {
