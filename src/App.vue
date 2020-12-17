@@ -6,7 +6,7 @@
       <h3 class="container-upload-text">Upload Image</h3>
     </clipper-upload>
 
-    <clipper-basic
+    <clipper-fixed
         v-else
         class="container-upload"
         ref="clipper"
@@ -38,14 +38,14 @@
 
 <script>
 
-import {clipperBasic, clipperUpload} from 'vuejs-clipper';
+import {clipperFixed clipperUpload} from 'vuejs-clipper';
 
 export default {
   name: 'App',
   components: {
     clipperUpload,
-    clipperBasic,
-    /*clipperFixed - sabit  seçici için kullanılıyor.  */
+   /* clipperBasic,*/
+    clipperFixed
 
   },
   data() {
